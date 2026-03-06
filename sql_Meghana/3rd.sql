@@ -188,3 +188,4 @@ where s_name is null and marks is null;
 -- print all the entries without null values
 select * from std
 where s_name is not null;
+
