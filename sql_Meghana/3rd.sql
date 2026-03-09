@@ -189,3 +189,85 @@ where s_name is null and marks is null;
 select * from std
 where s_name is not null;
 
+-- ================= friday session ============================
+
+use feb_batch;
+show tables;
+select * from dim_customer;
+select * from dim_date;
+select * from dim_host;
+select * from dim_property;
+select * from fact_bookings;
+select * from std;
+select * from employeee;
+
+select dh.Superhost_Flag, round(sum(fb.revenue),2) as total_revenue from dim_host as dh
+join fact_bookings as fb on fb.host_id = dh.host_id
+group by dh.Superhost_Flag;
+
+-- ======================== saturday session ======================
+use feb_batch;
+show tables;
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    dept_id INT,
+    salary INT
+);
+
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+
+INSERT INTO employees VALUES
+(1, 'Rahul', 101, 60000),
+(2, 'Priya', 102, 75000),
+(3, 'Amit', 103, 50000),
+(4, 'Neha', 101, 72000),
+(5, 'Arjun', NULL, 45000);
+ 
+INSERT INTO departments VALUES
+(101, 'HR'),
+(102, 'Finance'),
+(104, 'Marketing');
+
+select * from employees;
+select * from departments;
+
+-- INNER join returns matching data points/values
+select e.emp_name,d.dept_name from employees as e
+join departments as d on d.dept_id = e.dept_id;
+
+-- LEFT join returns all data from left table and matching data from right table.
+select e.emp_name,d.dept_name from employees as e
+left join departments as d on d.dept_id = e.dept_id;
+
+-- RIGHT join returns all data from right table and matching data from left 
+select e.emp_name,d.dept_name from employees as e
+right join departments as d on d.dept_id = e.dept_id;
+
+-- Full OUTER join returns all data from left table and all data from right
+select e.emp_name,d.dept_name from employees as e
+left join departments as d on d.dept_id = e.dept_id
+union
+select e.emp_name,d.dept_name from employees as e
+right join departments as d on d.dept_id = e.dept_id;
+
+select * from employees as e
+left join departments as d on d.dept_id = e.dept_id
+union
+select * from employees as e
+right join departments as d on d.dept_id = e.dept_id;
+
+-- cross join returns c* product
+select e.emp_name,d.dept_name from employees as e
+cross join departments as d on d.dept_id = e.dept_id
+limit 10;
+
+select * from employees;
+select * from departments;
+
+select d.dept_name, sum(e.salary) total_income from departments d
+join employees e on e.dept_id = d.dept_id;
+
